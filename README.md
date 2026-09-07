@@ -1,1 +1,291 @@
-# hhgiriskapisi.net
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H&H Enterprise Portal - Secure Login</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0d1117;
+            color: #f0f6fc;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* Yuxarı Biznes Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background-color: #161b22;
+            border-bottom: 1px solid #30363d;
+        }
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+        }
+        .brand-badge {
+            background-color: #238636;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Əsas Giriş Konteyneri */
+        .login-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        .login-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-header h2 {
+            margin: 0 0 8px 0;
+            font-size: 24px;
+            color: #f0f6fc;
+            letter-spacing: -0.5px;
+        }
+        .login-header p {
+            margin: 0;
+            color: #8b949e;
+            font-size: 14px;
+        }
+
+        /* Form Elementləri */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #c9d1d9;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #f0f6fc;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #238636;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .submit-btn:hover {
+            background-color: #2ea043;
+        }
+
+        /* OR Xətti */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 25px 0;
+            color: #8b949e;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #30363d;
+        }
+        .divider::before {
+            margin-right: 15px;
+        }
+        .divider::after {
+            margin-left: 15px;
+        }
+
+        /* Sosyal Giriş Düymələri (Ağ rəngdə ciddi üslub) */
+        .social-btn {
+            width: 100%;
+            padding: 11px 16px;
+            background-color: #ffffff;
+            color: #24292e;
+            border: 1px solid rgba(27, 31, 35, 0.15);
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            transition: background-color 0.2s;
+            text-decoration: none;
+        }
+        .social-btn:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* Footer və Çerezlər */
+        footer {
+            background-color: #161b22;
+            border-top: 1px solid #30363d;
+            padding: 20px 40px;
+            text-align: center;
+            font-size: 13px;
+            color: #8b949e;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+        .footer-links a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Yuxarı Biznes Panel -->
+    <header class="top-bar">
+        <div class="brand-logo">
+            <div class="brand-badge">H&H</div>
+            <span>Enterprise Portal</span>
+        </div>
+        <div class="top-right">
+            <!-- Google Translate Modulu -->
+            <div id="google_translate_element"></div>
+        </div>
+    </header>
+
+    <!-- Mərkəzi Giriş Hissəsi -->
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="login-header">
+                <h2>Sistemə Giriş</h2>
+                <p>Davam etmək üçün məlumatlarınızı daxil edin</p>
+            </div>
+
+            <!-- E-poçt və Şifrə Formu -->
+            <form id="enterpriseLoginForm" onsubmit="handleEnterpriseLogin(event)">
+                <div class="form-group">
+                    <label class="form-label" for="email">E-poçt ünvanı</name>
+                    <input type="email" id="email" class="form-input" placeholder="name@company.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Şifrə</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Daxil Ol</button>
+            </form>
+
+            <div class="divider">OR</div>
+
+            <!-- Ağ Rəngdə Google ilə Giriş -->
+            <button class="social-btn" onclick="socialLogin('Google')">
+                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.19v3.15C3.17 21.31 7.24 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.6H1.19C.43 8.13 0 9.87 0 11.76s.43 3.63 1.19 5.16l4.08-2.68z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.24 0 3.17 2.69 1.19 6.6l4.08 3.15c.95-2.85 3.6-4.96 6.73-4.96z"/></svg>
+                Giriş yap
+            </button>
+
+            <!-- YouTube ilə Giriş -->
+            <button class="social-btn" onclick="socialLogin('YouTube')">
+                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#FF0000" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                YouTube ilə giriş et
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer və Çerezlər -->
+    <footer>
+        <div class="footer-links">
+            <a href="#" onclick="alert('H&H Çerez Siyasəti: Bu portal təhlükəsizlik və sessiya idarəçiliyi üçün zəruri çerezlərdən istifadə edir.'); return false;">H&H Çerezlər</a>
+            <a href="#" onclick="alert('Məxfilik və Təhlükəsizlik Siyasəti tam qorunur.'); return false;">Məxfilik</a>
+            <a href="#" onclick="alert('H&H Enterprise Destek xidməti 24/7 aktivdir.'); return false;">Dəstək</a>
+        </div>
+        <div>&copy; 2026 H&H Enterprise. Bütün hüquqlar qorunur.</div>
+    </footer>
+
+    <!-- Skriptlər (Yoxlama və Yönləndirmə) -->
+    <script>
+        function handleEnterpriseLogin(event) {
+            event.preventDefault(); // Səhifənin yenilənməsinin qarşısını alırıq
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            // Şərt: E-poçt və şifrə yazılmayıbsa içəri buraxmır
+            if (!email || !password) {
+                alert("Zəhmət olmasa e-poçt və şifrənizi daxil edin!");
+                return;
+            }
+
+            // Məlumatlar yazılıbsa təsdiq mesajı verib hhiletisim.github.io ünvanına yönləndiririk
+            alert("Uğurla daxil olundu! H&H Əsas Portalına yönləndirilirsiniz...");
+            window.location.href = "https://hhiletisim.github.io";
+        }
+
+        function socialLogin(provider) {
+            alert(provider + " hesabı ilə təsdiqləndi. H&H Portalına keçid edilir...");
+            window.location.href = "https://hhiletisim.github.io";
+        }
+
+        // Google Translate inisializasiyası
+        function googleTranslateElementInit() {
+            if (window.google && window.google.translate) {
+                new google.translate.TranslateElement({pageLanguage: 'az', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+            }
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
